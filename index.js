@@ -12,7 +12,7 @@ app.use(passport.initialize());
 jwtPassport(passport);
 
 app.use(express.json());
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
 
 const startApp = async () => {
   try {
