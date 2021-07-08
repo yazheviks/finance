@@ -35,7 +35,7 @@ export class AuthService {
     );
   }
 
-  register(data: { username: string, password: string }) {
-    return this.http.post<{ token: string }>(`/api/auth/register`, data);
+  register(data: { username: string, password: string }): Observable<{ username: string, password: string }> {
+    return this.http.post<{ username: string, password: string }>(`/api/auth/register`, data);
   }
 }

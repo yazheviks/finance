@@ -1,0 +1,24 @@
+.nav {
+  height: 100px;
+  background-color: bisque;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+a {
+  text-align: center;
+  width: 100px;
+  line-height: 100px;
+  text-decoration-line: none;
+}
+
+.active {
+  background-color: antiquewhite;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+}
