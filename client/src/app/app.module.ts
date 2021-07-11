@@ -13,6 +13,7 @@ import { MainComponent } from './components/site-layout/main/main.component';
 import {AuthGuard} from "./guards/auth.guard";
 import {AuthComponent} from "./components/auth/auth.component";
 import { SiteLayoutComponent } from './components/site-layout/site-layout.component';
+import {UsersService} from "./services/users.service";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { SiteLayoutComponent } from './components/site-layout/site-layout.compon
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, UsersService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

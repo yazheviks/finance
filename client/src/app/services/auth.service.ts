@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 
 @Injectable()
 export class AuthService {
-  token = '';
+  token = localStorage.getItem('auth-token');
 
   constructor(private http: HttpClient) {}
 
@@ -13,11 +13,12 @@ export class AuthService {
     this.token = token;
   }
 
-  getToken(): string {
+  getToken() {
     return this.token;
   }
 
   isAuthenticated(): boolean {
+    console.log('token', this.token);
     return !!this.token;
   }
 
