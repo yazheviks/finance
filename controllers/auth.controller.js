@@ -8,10 +8,15 @@ const Token = require('../models/token');
 const keys = require('../config/app.config');
 const authHelper = require('../helpers/auth.helper');
 
-const updateTokens = async (username, userId) => {
-  const refreshToken = await authHelper.generateRefreshToken();
-  await authHelper.replaceDbRefreshToken(refreshToken.id, userId);
-  return authHelper.generateAccessToken(username, userId);
+const updateTokens = async (userId) => {
+  const accessToken = authHelper.generateAccessToken(userId);
+  const refreshToken = authHelper.generateRefreshToken();
+
+  await authHelper.replaceDbRefreshToken(refreshToken.id, userId)
+  return {
+    accessToken,
+    refreshToken: refreshToken.token,
+  };
 };
 
 module.exports.getUsers = async (request, response) => {
@@ -76,12 +81,8 @@ module.exports.login = async (request, response) => {
       });
     }
 
-    const token = await updateTokens(username, user._id);
-    console.log('token', token);
-
-    response.status(200).json({
-      token: `Bearer ${token}`,
-    });
+    const tokens = await updateTokens(user._id);
+    return response.json(tokens);
   } catch (error) {
     console.log(error);
   }
@@ -111,7 +112,6 @@ module.exports.refreshTokens = async (request, result) => {
       result.status(400).json({ message: 'Token expired' });
       return;
     } else if (error instanceof jwt.JsonWebTokenError) {
-
       result.status(400).json({ message: 'Invalid token' });
       return;
     }

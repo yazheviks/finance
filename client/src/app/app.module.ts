@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { RegistrationComponent } from './components/auth/registration/registration.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import {AuthService} from "./services/auth.service";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MainComponent } from './components/site-layout/main/main.component';
@@ -14,6 +14,7 @@ import {AuthGuard} from "./guards/auth.guard";
 import {AuthComponent} from "./components/auth/auth.component";
 import { SiteLayoutComponent } from './components/site-layout/site-layout.component';
 import {UsersService} from "./services/users.service";
+import {AuthInterceptor} from "./interceptors/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,16 @@ import {UsersService} from "./services/users.service";
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService, UsersService, AuthGuard],
+  providers: [
+    AuthService,
+    UsersService,
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

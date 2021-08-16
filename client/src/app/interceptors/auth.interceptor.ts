@@ -11,11 +11,14 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.auth.isAuthenticated()) {
+      console.log('authenticated');
       request = request.clone({
         setHeaders: {
           Authorization: this.auth.getToken(),
         },
       });
+    } else {
+      console.log('sorry, interceptor couldnt find authenticated');
     }
 
     return next.handle(request).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));

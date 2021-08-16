@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 export class UsersService {
   constructor(private http: HttpClient) {}
 
-  getUsers() {
+  getUsers(): Observable<any> {
     return this.http.get('/api/auth/users');
   }
 }
