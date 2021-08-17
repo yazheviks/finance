@@ -11,7 +11,15 @@ module.exports = (request, response, next) => {
   const token = authHeader.replace('Bearer ', '');
 
   try {
-    const payload = jwt.verify(token, secret.jwt.secret);
+    const payload = jwt.verify(token, secret.jwt.secret, (err, result) => {
+      if (err) {
+        console.log('Auth error: ', err.message);
+        return response.status(401).send(err.message);
+      }
+    });
+
+    console.log('payload', payload);
+    console.log('date now', new Date());
 
     if(payload.type !== 'access') {
       return response.status(401).json({ message: 'Invalid token' });
